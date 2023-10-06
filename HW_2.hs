@@ -3,7 +3,7 @@
 
 func_HW :: (Double -> Double) -> (Double -> Double) -> Double -> Double
 func_HW f g p | f(p) > g (p) = f(p)
-              | f(p) == g(p) = error "error"
+              | f(p) == g(p) = f(p)
               | otherwise = g(p)
 
 -- 2 задача
