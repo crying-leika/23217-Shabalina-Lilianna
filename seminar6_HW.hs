@@ -40,5 +40,5 @@ sim n m = sim_Helper m m
 
 sim_help :: (Eq a, Eq b) => [(a, b)] -> [(b, a)] -> Bool
 sim_help [] m = True
-sim_help ((x, y):xs) m = if (m `elem` (y, x)) then simHelper xs m else False
+sim_help ((x, y):xs) m = if (m `elem` (y, x)) then sim_help xs m else False
 
