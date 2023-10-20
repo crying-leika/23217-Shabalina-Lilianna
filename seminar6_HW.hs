@@ -7,10 +7,7 @@ reverse' a = foldl (\s x -> (x:s)) [] a
 
 evenOnly :: [a] -> [a]
 evenOnly [] = []
-evenOnly a = foldl (\acc x -> if frs (acc) == 1 then frs(acc = 0) snd(acc) ++ x else frs (acc = 1)) (1, [])
- 
--- я честно пыталась, но понять как нормально менять состояние первого элемента аккумулятора-кортежа не смогла
--- а поздно вечером писать не культурно :(, но и нагуглить я не смогла как это делать 
+evenOnly a = foldl (\(idx, acc) x -> if idx == 1 then (0, acc ++ x) else (1, acc)) (1, [])
 
 --3 
 
