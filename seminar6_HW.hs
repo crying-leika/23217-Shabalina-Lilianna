@@ -28,14 +28,14 @@ type BinaryRelation a = Eq a => [(a, a)]
 
 refl :: Eq a => [a] -> BinaryRelation a -> Bool
 refl [] n = True
-refl (x:xs) n = if (n `elem` (x, x)) then refl xs т else False
+refl (x:xs) n = if (n `elem` (x, x)) then refl xs n else False
 
 
 
 sim :: Eq a => [a] -> BinaryRelation a -> Bool
 sim n m = sim_Helper m m
 
-sim_Helper :: (Eq a, Eq b) => [(a, b)] -> [(b, a)] -> Bool
-sim_Helper [] m = True
-sim_Helper ((x, y):xs) m = if (m `elem` (y, x)) then simHelper xs m else False
+sim_help :: (Eq a, Eq b) => [(a, b)] -> [(b, a)] -> Bool
+sim_help [] m = True
+sim_help ((x, y):xs) m = if (m `elem` (y, x)) then simHelper xs m else False
 
