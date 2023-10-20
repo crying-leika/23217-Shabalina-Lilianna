@@ -19,8 +19,11 @@ for (i, a) inc_func bool_func for_a = if (bool_func) then for (((inc_func i), (f
 
 -- 4
 
+mult::(a, b) -> (a, b) -> (a, b) -> (a, b)
+mult (x1, y1) (x2, y2) = (x1, y2) (x2, y1)
+
 dec_mult :: [(a, b)] -> [(a, b)]
-dec_mult pepe = [p1 p2 | p1 <- pepe, p2 <- pepe]
+dec_mult pepe = [ mult p1 p2 | p1 <- pepe, p2 <- pepe]
 
 -- 5
 
