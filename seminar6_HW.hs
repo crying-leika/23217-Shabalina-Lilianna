@@ -12,7 +12,7 @@ evenOnly a = foldl (\(idx, acc) x -> if idx == 1 then (0, acc ++ x) else (1, acc
 --3 
 
 for :: (Int, a) -> (Int -> Int) -> (Int -> Bool) -> (Int -> a -> a) -> a
-for (i, a) inc_func bool_func for_a = if (bool_func i) then for ((inc_func i), (for_a i a)) (inc_func) (bool_func) for_a else
+for (i, a) inc_func bool_func for_a = if (bool_func i) then for ((inc_func i), (for_a i a)) (inc_func) (bool_func) for_a else a
 
 -- 4
 
