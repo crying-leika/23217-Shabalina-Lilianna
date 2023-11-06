@@ -51,7 +51,7 @@ matrixFold function acc mat = foldl function acc (make_list mat)
 
 -- map 
 -- computeVector array = foldl (\s x -> s ++ [computeVec_helper array x]) [] -- похоже на переизобретение map
--- выше комментарий за кукую-то из домашек, вроде к 5му семинару
+-- выше комментарий за какую-то из домашек, вроде к 5му семинару
 -- как раз задача map переизобрести 
 
 matrixMap :: (MtxElem -> Double) -> Matrix -> Matrix
