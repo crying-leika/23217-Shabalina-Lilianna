@@ -97,7 +97,83 @@ instance Eq Matrix where
     mat1 == mat2   | matrixSize mat1 == matrixSize mat2 = matrixFold (\acc ((i, j), x) -> if acc == True then (x == (mat2 !!! (i, j))) else False) True mat1
                    | otherwise = False
 
+-- 6 
 
---это все, что мой мозг смог выдать к вечеру понедельника
---я постараюсь к пятнице еще порешать задачи, очень мне не хочется за семестр получать 3
---но мегатяжело идет решение задач :( 
+instance Num Matrix where
+   (+) :: Matrix -> Matrix -> Matrix
+   mat1 + mat2 = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> acc ++ [((i, j), x + (mat2 !!! (i, j)))]) [] mat1)
+
+-- задание реализовать умножение матриц умножило меня на 0, не получилось
+
+negate::Matrix -> Matrix 
+negate (Matrix mat) = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> acc ++ [((i, j), x * (-1))]) [] (Matrix mat))
+
+--negate (Matrix mat) = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> acc ++ [((i, j), x * (-1))]) [] mat)
+-- эта вот строка не давала компилятору покоя, выдавал ошибку 
+--seminar7_HW.hs:109:87: error:
+--    * Couldn't match expected type `Matrix'
+--                  with actual type `Array (Int, Int) Double'
+--    * In the third argument of `matrixFold', namely `mat'
+--      In the expression:
+--        matrixFold
+--          (\ acc ((i, j), x) -> acc ++ [((i, j), x * (- 1))]) [] mat
+--      In an equation for `Main.negate':
+--          Main.negate (Matrix mat)
+--            = matrixFold
+--                (\ acc ((i, j), x) -> acc ++ [((i, j), x * (- 1))]) [] mat
+--    |
+--109 | negate (Matrix mat) = matrixFold (\acc ((i, j), x) -> acc ++ [((i, j), x * (-1))]) [] mat
+
+-- не очень понимаю чем сильно помогло изменить mat на (Matrix mat), притом что перед сверткой стояла функция makeMatrix
+-- т е после всех манипуляций в любом случае должна вернуться матрица 
+
+abs:: Matrix -> Matrix 
+abs (Matrix mat) = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> if (x >= 0) then  acc ++ [((i, j), x * (1))] else acc ++ [((i, j), x * (-1))]) [] (Matrix mat))
+
+signum :: Matrix -> Matrix 
+signum (Matrix mat) = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> if (x >= 0) then  acc ++ [((i, j), a)] else acc ++ [((i, j), b)]) [] (Matrix mat))
+    where 
+        a = 1 
+        b = (-1)
+
+--fromInteger :: Integer -> Matrix 
+--fromInteger count = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> acc ++ [((i, j), a)]) [] (Matrix example1))
+--    where 
+--        a = count
+
+
+-- не получается избежать ошибки, без слова (Matrix), заменой Matrix example1 на mat 
+-- не руботает 
+
+--Couldn't match expected type: Array (Int, Int) Double
+--                  with actual type: [((Int, Int), Double)]
+--    * In the first argument of `Matrix', namely `example1'
+--      In the third argument of `matrixFold', namely `(Matrix example1)'
+--      In the second argument of `makeMatrix', namely
+--        `(matrixFold
+--            (\ acc ((i, j), x) -> acc ++ [((i, j), a)]) [] (Matrix example1))'
+--    |
+--140 | fromInteger count = makeMatrix (0, 0) (matrixFold (\acc ((i, j), x) -> acc ++ [((i, j), a)]) [] 
+--(Matrix example1))
+
+
+-- 7 
+
+det2 :: Matrix -> Double
+det2 (Matrix mat) = (mat ! (0, 0)) *(mat ! (1, 1)) - (mat ! (0, 1))*(mat ! (1, 0))
+--    ((0, 0), _ )*((1, 1) _ ) - ((0, 1) _ )*((1, 0) _)
+
+
+det3 :: Matrix -> Double
+det3 (Matrix mat) = (mat ! (0, 0))*(mat ! (1, 1))*(mat ! (2, 2)) + (mat ! (0, 1))*(mat ! (1, 2))*(mat ! (2, 0)) - (mat ! (0, 2))*(mat ! (2, 2))*(mat ! (2, 0)) + (mat ! (0, 2))*(mat ! (2, 0))*(mat ! (2, 1)) - (mat ! (0, 1))*(mat ! (1, 0))*(mat ! (2, 2)) - (mat ! (0, 0))*(mat ! (1, 2))*(mat ! (2, 1))
+
+
+-- 8 
+
+isDiagonal :: Matrix -> Bool
+isDiagonal (Matrix mat) = matrixFold (\acc ((i, j), el) -> if i==j then acc else if (mat ! (i, j)) == 0 then acc else False) True (Matrix mat)
+
+isSymmetrical :: Matrix -> Bool
+isSymmetrical (Matrix mat) = matrixFold (\acc ((i, j), el) -> if ((mat ! (i, j)) == (mat ! (j, i))) then acc else False) True (Matrix mat)
+
+
