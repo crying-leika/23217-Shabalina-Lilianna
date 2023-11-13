@@ -1,5 +1,15 @@
 -- In file sem9_HW.hs --
+
+
 --module Sem9_HW where
+--import Utils.hs 
+-- когда импортируем весь файл не обязательно ведь указывать какие конкретно мы функции импортируем..? 
+
+-- ошибка, вызванная импортированием 
+-- sem9_HW.hs:4:8: error: parse error on input `Utils.hs' 
+-- 4 | import Utils.hs
+--   |        ^^^^^^^^
+
 
 newtype Stack = Stack [Int]
     deriving Show
@@ -33,30 +43,109 @@ data Instruction =
     | Pow 
     deriving Show
 
-add' :: Stack -> Stack 
-add' (Stack (a:b:list)) = Stack ((a + b):list)
+add' :: [Int] -> [Int]
+add' (a:b:listt) = (a + b):listt
 
-Sub :: Stack -> Stack
-Sub (Stack (a:b:list)) = Stack ((a - b):list)
+sub' :: [Int] -> [Int]
+sub' (a:b:listt) = (b - a):listt
 
-div :: Stack -> Stack 
-div (Stack (a:b:list)) = Stack ((b/a):list)
+mul' :: [Int] -> [Int]
+mul' (a:b:listt) = (a * b):listt
 
-mul :: Stack -> Stack 
-mul (Stack (a:b:list)) = Stack ((b*a):list)
+div' :: [Int] -> [Int]
+div' (a:b:listt) = (b `div` a):listt
 
-pow :: Stack -> Stack 
-pow (Stack (a:b:list)) = Stack ((b^a):list)
+pow' :: [Int] -> [Int]
+pow' (a:b:listt) = (b ^ a):listt
 
+computeInstructions :: [Instruction] -> Int
+computeInstructions instructions = computeInstructions' instructions (Stack [])
 
+computeInstructions' :: [Instruction] -> Stack -> Int
+computeInstructions' [] (Stack [result]) = result
+computeInstructions' (Push x : list) (Stack stack) = computeInstructions' list (Stack (x : stack))
+computeInstructions' (Add : list) (Stack (a : b : stack)) = computeInstructions' list (Stack ((a + b) : stack))
+computeInstructions' (Sub : list) (Stack (a : b : stack)) = computeInstructions' list (Stack ((b - a) : stack))
+computeInstructions' (Div : list) (Stack (a : b : stack)) = computeInstructions' list (Stack ((b `div` a) : stack))
+computeInstructions' (Mul : list) (Stack (a : b : stack)) = computeInstructions' list (Stack ((a * b) : stack))
+computeInstructions' (Pow : list) (Stack (a : b : stack)) = computeInstructions' list (Stack ((b ^ a) : stack))
 
-
-
-
---computeInstructions :: [Instruction] -> Int
---computeInstructions arr_of_instraction = ans where 
-    --ans = Stack (ans:_) = foldl (\acc x -> (func acc x)) emptyStack arr_of_instraction
---computeInstructions [comand] = foldl (\acc + x -> )
 
 -- 3
---parseString :: String -> [Instruction]
+
+{-
+--module Utils ( 
+  --  split, strIsNumber, strToInt
+--) where
+-- import Data.Char
+split :: String -> Char -> [String]
+split [] delim = [""]
+split (x:xs) delim
+    | x == delim = "" : rest
+    | otherwise = (x : head rest) : tail rest
+    where
+        rest = split xs delim
+
+strIsNumber :: String -> Bool
+strIsNumber = all isDigit
+
+
+strToInt :: String -> Int
+strToInt s | strIsNumber s = read s
+           | otherwise = error "This string is not a number" 
+
+-}
+
+
+parseString :: String -> [Instruction]
+parseString str = let string = split str ' ' in (foldl (\acc a -> (instr a):acc) [] string)
+    where
+         instr a | strIsNumber a = Push (strToInt a) -- кладем число на стек
+                 | a == "+" = Add -- все, что не число, то операция над числами
+                 | a == "-" = Sub
+                 | a == "/" = Div
+                 | a == "*" = Mul
+                 | a == "^" = Pow
+
+--протестировать эту функцию не вышло, вечно ошибки компиляции
+-- не понятно ghci, что такое isDigit из Utilis.hs 
+-- потом не понятно стало, ругается он, что не знает Data.Char 
+-- не знаю что не так, наверно сама где-то накосячила, а обвиняю ghci :) 
+
+--4 
+
+class Parsable a where
+    parse :: a -> [Instruction]
+
+instance Parsable String where
+    parse :: String -> [Instruction]
+    parse str = let string = split str ' ' in (foldl (\acc x -> (instr x):acc) [] string) 
+        where instr a | strIsNumber a = Push (strToInt a) 
+                      | a == "+" = Add
+                      | a == "-" = Sub
+                      | a == "/" = Div
+                      | a == "*" = Mul
+                      | a == "^" = Pow
+
+
+instance Parsable [String] where
+    parse :: [String] -> [Instruction]
+    parse strs = (foldl (\acc x -> (instr x):acc) [] strs ) 
+        where instr a | strIsNumber x = Push (strToInt x) 
+                      | a == "+" = Add
+                      | a == "-" = Sub
+                      | a == "/" = Div
+                      | a == "*" = Mul
+                      | a == "^" = Pow
+
+instance Parsable [Instruction] where
+    parse :: [Instruction] -> [Instruction]
+    parse instrr = instrr 
+
+
+
+
+
+
+
+
