@@ -2,7 +2,8 @@
 
 
 --module Sem9_HW where
---import Utils.hs 
+import Utils -- в импортах названия модулей не должны содержать .hs
+             -- т.к. импорт делается по названию модуля, а не файлаф
 -- когда импортируем весь файл не обязательно ведь указывать какие конкретно мы функции импортируем..? 
 
 -- ошибка, вызванная импортированием 
@@ -131,7 +132,7 @@ instance Parsable String where
 instance Parsable [String] where
     parse :: [String] -> [Instruction]
     parse strs = (foldl (\acc x -> (instr x):acc) [] strs ) 
-        where instr a | strIsNumber x = Push (strToInt x) 
+        where instr a | strIsNumber x = Push (strToInt x) -- повнимательнее с именами переменных, ошибка тут
                       | a == "+" = Add
                       | a == "-" = Sub
                       | a == "/" = Div
