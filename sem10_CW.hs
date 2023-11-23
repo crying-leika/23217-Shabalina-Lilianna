@@ -73,7 +73,7 @@ findMax (Node {right=r, value=_}) = findMax r
 rep :: Int -> a -> [a]
 rep n x
     | n <= 0    = []
-    | otherwise = x : replicate' (n - 1) x
+    | otherwise = x : rep (n - 1) x
 
 treeSort :: Ord a => BinTree a -> [a]
 treeSort Nil = []
