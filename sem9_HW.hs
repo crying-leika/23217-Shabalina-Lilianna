@@ -128,17 +128,6 @@ instance Parsable String where
                       | a == "*" = Mul
                       | a == "^" = Pow
 
-
-instance Parsable [String] where
-    parse :: [String] -> [Instruction]
-    parse strs = (foldl (\acc x -> (instr x):acc) [] strs ) 
-        where instr a | strIsNumber x = Push (strToInt x) -- повнимательнее с именами переменных, ошибка тут
-                      | a == "+" = Add
-                      | a == "-" = Sub
-                      | a == "/" = Div
-                      | a == "*" = Mul
-                      | a == "^" = Pow
-
 instance Parsable [Instruction] where
     parse :: [Instruction] -> [Instruction]
     parse instrr = instrr 
