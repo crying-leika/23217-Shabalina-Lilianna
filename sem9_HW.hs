@@ -108,11 +108,6 @@ parseString str = let string = split str ' ' in (foldl (\acc a -> (instr a):acc)
                  | a == "*" = Mul
                  | a == "^" = Pow
 
---протестировать эту функцию не вышло, вечно ошибки компиляции
--- не понятно ghci, что такое isDigit из Utilis.hs 
--- потом не понятно стало, ругается он, что не знает Data.Char 
--- не знаю что не так, наверно сама где-то накосячила, а обвиняю ghci :) 
-
 --4 
 
 class Parsable a where
