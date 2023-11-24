@@ -74,7 +74,7 @@ optimizer = foldr optimize []
  -- f :: Double -> Double  получается это как "map :: (a -> b) -> [a] -> [b]"
  points :: [(Double,Double)] -> (Double -> Double) -> [(Double,Double)]
  --points [] f = [] на книгах по хаскеллю можно писать "ghci убивает", что опять не так... 
- points point f = foldl (\opt (x, y) -> if (f(x) > y) then opt ++ [(x, y)] else opt) [] point
+ points point f = foldl (\opt (x, y) -> if (f(x) < y) then opt ++ [(x, y)] else opt) [] point
 
 
 -- я обязательно выживу... 
