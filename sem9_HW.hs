@@ -134,7 +134,7 @@ instance Parsable [Instruction] where
 
 
 stackMachine :: (Parsable a) => a -> Int
-stackMachine instr = let instr = parse instructionss in computeInstructions instructionss
+stackMachine instr = let instr = (parse instructionss) in computeInstructions instructionss
 
 
 
