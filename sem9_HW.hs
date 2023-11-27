@@ -1,16 +1,10 @@
 -- In file sem9_HW.hs --
 
 
---module Sem9_HW where
-import Utils -- в импортах названия модулей не должны содержать .hs
-             -- т.к. импорт делается по названию модуля, а не файлаф
--- когда импортируем весь файл не обязательно ведь указывать какие конкретно мы функции импортируем..? 
-
--- ошибка, вызванная импортированием 
--- sem9_HW.hs:4:8: error: parse error on input `Utils.hs' 
--- 4 | import Utils.hs
---   |        ^^^^^^^^
-
+module Sem9_HW where (
+    stackMachine
+) where
+    import Utils 
 
 newtype Stack = Stack [Int]
     deriving Show
