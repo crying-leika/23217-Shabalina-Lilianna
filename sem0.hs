@@ -25,3 +25,11 @@ natToInt (Succ count) = 1 + natToInt count
 -- <interactive>:19:10: error: Data constructor not in scope: Zero
 
 -- =( 
+
+--ghci> natToInt (Succ(Zero))
+--1
+
+-- =) 
+
+-- Zero не работает, почему не очень понимаю 
+
