@@ -1,5 +1,6 @@
 -- 1
 import Data.Maybe
+import Control.Applicative
 
 data Person = Person {
  name :: String,
@@ -32,14 +33,13 @@ mothersFather' p = do
 
 hasAllGrands :: Person -> Maybe Person
 hasAllGrands p = do
-  mother <- mother p
-  motherMother <- mother mother
-  motherFather <- father mother
-  father <- father p
-  fatherMother <- mother father
-  fatherFather <- father father
-  return (motherFather <|> motherMother <|> fatherFather <|> fatherMother)
-
+  m <- mother p
+  let motherMother = mother m
+  let motherFather = father m
+  f <- father p
+  let fatherMother = mother f
+  let fatherFather = father f
+  motherFather <|> motherMother <|> fatherFather <|> fatherMother
 
 --3
  
