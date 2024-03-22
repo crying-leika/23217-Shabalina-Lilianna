@@ -7,8 +7,7 @@ fact' = do
   if step == 0
     then return acc
     else do
-      put (step - 1, acc * step) -- обновляем значения step и acc
-      fact'
+      put (step - 1, acc * step) -- обновляем значения step и ac
 
 fact :: Int -> Int
 fact n = evalState fact' (n, 1)
@@ -22,7 +21,6 @@ fibb' = do
     then return n2
     else do
       put (step - 1, n1 + n2, n1)
-      fibb'
 
 fibb :: Int -> Int
 fibb n = evalState fibb' (n, 1, 0)
